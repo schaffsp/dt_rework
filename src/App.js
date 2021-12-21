@@ -1,15 +1,13 @@
 import './App.css';
 import Navbar from './Components/Navbar';
-import {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateUserLat, updateUserLon } from './actions';
+import PageBody from './Components/PageBody';
 
 function App() {
   const dispatch = useDispatch();
   const [haveLocation, setHaveLocation] = useState(false);
-
-  const lat = useSelector(state => state.user.lat);
-  const lon = useSelector(state => state.user.lon);
 
   const gotLocation = () => {
     setHaveLocation(true);
@@ -39,10 +37,10 @@ function App() {
       <Navbar />
       {haveLocation && 
         <div>
-          <h1>Lat: {lat} Lon: {lon}</h1>
+          <PageBody />
         </div>
       }
-      {!haveLocation && <h2>yuurrrr</h2>}
+      {!haveLocation && <h2>Unable to get user location.</h2>}
     </div>
   );
 }
