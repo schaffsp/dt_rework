@@ -4,7 +4,7 @@ import '../CSS/Navbar.css'
 const Navbar = () => {
     return (
         <div className='Navbar-Container'>
-            <h1 className='Navbar-Component'>hi</h1>
+            <h1 className='Navbar-Component'>Drivethrough Rework</h1>
         </div>
     )
 }

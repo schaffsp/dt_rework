@@ -1,5 +1,7 @@
 :root {
   --primary_orange: #FFD898;
+  --background_grey: darkgrey;
+  --foreground_grey: #d3d3d3;
 }
 
 .App {
