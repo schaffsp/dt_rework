@@ -1,48 +1,38 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchNearbyPlaces } from '../actions';
+import '../CSS/PageBody.css'
 
 const PageBody = () => {
     const lat = useSelector(state => state.user.lat);
     const lon = useSelector(state => state.user.lon);
-    const [nearbyPlaces, setNearbyPlaces] = useState('');
+    const DEFAULT_DISTANCE = 2;
+    var distance = DEFAULT_DISTANCE;
+    
+    const nearbyPlaces = useSelector(state => state.nearbyPlaces);
 
-    // I know this is a bad idea but its temporary
-    const key = 'AIzaSyC-GnsYOSBo7-JcT7e83IQl9QKFuwVokD0';
-
-    var axios = require('axios');
-
-    const updateNearbyPlaces = newPlaces => {
-        setNearbyPlaces(newPlaces);
-    }
-
-    /*
-    / The 'https://cors-anywhere.herokuapp.com/' prefix is temporary and should be replaced.
-    / Currently, radius is locked at 1.5 km but it can be easily changed to a dynamic number
-    / --> Note that the google places api uses meters as radius
-    */
-    var config = {
-    method: 'get',
-    url: `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lon}&radius=1500&type=restaurant&key=${key}`,
-    headers: { }
-    };
-
-    axios(config)
-        .then(function (response) {
-        //console.log(response.data.results);
-        updateNearbyPlaces(response.data.results);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
-
+    const dispatch = useDispatch();
+    //dispatch(fetchNearbyPlaces(1500, lat, lon));
     console.log(nearbyPlaces);
 
+    function distanceChanged(new_distance) {
+        distance = new_distance;
+        var output = document.getElementById("willing-to-drive");
+        output.innerHTML = new_distance;
+        var singularPlural = document.getElementById("willing-to-drive-s");
+        if (new_distance == 1) {
+            singularPlural.innerHTML = "";
+        } else {
+            singularPlural.innerHTML = "s";
+        }
+    }
+
     return (
-        <div>
-            <h1>Hello</h1>
+        <div className='PageBody-PlacesOptions-Container'>
+            <h2>I can drive <span id="willing-to-drive">{DEFAULT_DISTANCE}</span> mile<span id="willing-to-drive-s">s</span> for food!</h2>
+            <input type="range" min="1" max="30" defaultValue={DEFAULT_DISTANCE} onChange={(evt) => { distanceChanged(evt.target.value); }} className="PageBody-PlacesOptions-Slider" id="slider"></input>
         </div>
     )
 }
-//{nearbyPlaces.map(place => <h1>H: {console.log(place)}{place.name}</h1>)}
+    //{nearbyPlaces.map(place => <h1>H: {console.log(place)}{place.name}</h1>)}
 export default PageBody

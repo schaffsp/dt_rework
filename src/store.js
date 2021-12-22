@@ -6,7 +6,8 @@ const initialState = {
     user: {
         lat: "",
         lon: "",
-    }
+    },
+    nearbyPlaces: [],
 };
 
 function reducer(state, action) {
@@ -27,6 +28,11 @@ function reducer(state, action) {
                     lon: action.payload
                 }
             };
+        case Action.AddNearbyPlaces:
+            return {
+                ...state,
+                nearbyPlaces: action.payload
+            }
         default:
             return state;
     }
