@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchNearbyPlaces } from '../actions';
 import '../CSS/PageBody.css'
+import Restaurant from './Restaurant';
 
 const PageBody = () => {
     const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const PageBody = () => {
                 <button className='PageBody-PlacesOptions-Submit' onClick={findNearbyPlaces}>Find nearby drivethroughs</button>
             </div>
             <div className='PageBody-Places-Container'>
-                {nearbyPlaces && nearbyPlaces.map(place => <h1>H: {console.log(place)}{place.name}</h1>)}
+                {nearbyPlaces && nearbyPlaces.map(place => <Restaurant restaurant={place}/>)}
             </div>
         </div>
     )
