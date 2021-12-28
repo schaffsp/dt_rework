@@ -3,7 +3,9 @@
     margin-left: 15%;
     margin-right: 15%;
     padding: 20px;
-    background-color: var(--background_grey);
+    border: 1px;
+    border-style: solid;
+    border-color: black;
     border-radius: 1em;
 }
 
@@ -15,7 +17,7 @@
 }
 
 .PageBody-PlacesOptions-Submit {
-    background-color: var(--foreground_grey);
+    background-color: var(--primary_orange);
     margin-top: 15px;
     border: none;
     border-radius: 0.5em;

@@ -1,13 +1,33 @@
 .Navbar-Container {
+    padding-left: 20px;
+    padding-right: 20px;
     background-color: var(--primary_orange);
 
     width: 100%;
     height: 10vh;
 
     display: flex;
+    flex-direction: row;
+
+    border-top: 0px;
+    border-bottom: 1px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: black;
 }
 
 .Navbar-Component {
     display: flex;
-    align-self: flex-end;
+    align-self: center;
+    margin-right: 15px;
+}
+
+.Navbar-Button {
+    border: none;
+    font-size: 20px;
+    font-weight:lighter;
+    background: none;
+    padding-top: 10px;
+    align-self: center;
 }

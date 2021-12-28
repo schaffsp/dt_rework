@@ -1,0 +1,18 @@
+.Restaurant-Contianer {
+    border-top: 2px;
+    border-bottom: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: black;
+
+    display: flex;
+}
+
+.Restaurant-OpenNow {
+    background-color: green;
+    border-radius: 0.5em;
+    padding: 5px;
+    margin-left: auto;
+    
+}
