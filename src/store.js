@@ -9,6 +9,7 @@ const initialState = {
     },
     nearbyPlaces: [],
     loadingNearbyPlaces: false,
+    nearbyPlacesLoaded: false,
 };
 
 function reducer(state, action) {
@@ -42,7 +43,8 @@ function reducer(state, action) {
         case Action.NoLongerLoadingNearbyPlaces:
             return {
                 ...state,
-                loadingNearbyPlaces: action.payload
+                loadingNearbyPlaces: action.payload,
+                nearbyPlacesLoaded: true,
             }
         default:
             return state;

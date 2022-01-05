@@ -15,10 +15,7 @@
 
 .PageBody-Container {
     margin-top: 10px;
-    margin-left: 15%;
-    margin-right: 15%;
     padding: 20px;
-
     display: flex;
     flex-direction: row;
     justify-content: center;

@@ -1,18 +1,26 @@
 .Restaurant-Contianer {
-    border-top: 2px;
-    border-bottom: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-style: solid;
-    border-color: black;
-
-    display: flex;
+    margin-left: 10%;
+    margin-right: 10%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
-.Restaurant-OpenNow {
-    background-color: green;
-    border-radius: 0.5em;
-    padding: 5px;
-    margin-left: auto;
-    
+.Restaurant-Top-Container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-row-gap: 0px;
+    justify-content: space-between;
+}
+
+.Restaurant-Top-Container  > h4{
+    margin-top: 0px;
+}
+
+.left {
+    text-align: end;
+}
+
+#address {
+    align-self: end;
 }

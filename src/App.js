@@ -4,10 +4,13 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserLat, updateUserLon } from './actions';
 import FilterBar from './Components/FilterBar';
+import Restaurant from './Components/Restaurant';
 
 function App() {
   const dispatch = useDispatch();
   const loadingNearbyPlaces = useSelector(state => state.loadingNearbyPlaces);
+  const nearbyPlaces = useSelector(state => state.nearbyPlaces);
+  const nearbyPlacesLoaded = useSelector(state => state.nearbyPlacesLoaded);
   const [haveLocation, setHaveLocation] = useState(false);
 
   const gotLocation = () => {
@@ -40,6 +43,7 @@ function App() {
         <div>
           <FilterBar />
           {loadingNearbyPlaces && <h3>Loading...</h3>}
+          {nearbyPlacesLoaded && nearbyPlaces.data.map(place => <Restaurant key={place.restaurant_id} restaurant={place}/>)}
         </div>
       }
       {!haveLocation && <h2>Unable to get user location.</h2>}
