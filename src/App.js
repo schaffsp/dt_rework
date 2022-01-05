@@ -7,6 +7,7 @@ import FilterBar from './Components/FilterBar';
 
 function App() {
   const dispatch = useDispatch();
+  const loadingNearbyPlaces = useSelector(state => state.loadingNearbyPlaces);
   const [haveLocation, setHaveLocation] = useState(false);
 
   const gotLocation = () => {
@@ -38,7 +39,7 @@ function App() {
       {haveLocation && 
         <div>
           <FilterBar />
-          
+          {loadingNearbyPlaces && <h3>Loading...</h3>}
         </div>
       }
       {!haveLocation && <h2>Unable to get user location.</h2>}

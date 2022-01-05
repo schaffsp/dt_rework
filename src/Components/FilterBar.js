@@ -28,8 +28,8 @@ const FilterBar = () => {
                     <option value="20">20 mins</option>
                 </select>
                 <select id="travelModeSelection" className="Pagebody-Filter-SelectInput" name="distance">
-                    <option value="walking">Walking</option>
                     <option value="driving">Driving</option>
+                    <option value="walking">Walking</option>
                 </select>
             </form>
             </div>
