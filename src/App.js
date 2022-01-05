@@ -3,7 +3,7 @@ import Navbar from './Components/Navbar';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserLat, updateUserLon } from './actions';
-import PageBody from './Components/PageBody';
+import FilterBar from './Components/FilterBar';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +37,8 @@ function App() {
       <Navbar />
       {haveLocation && 
         <div>
-          <PageBody />
+          <FilterBar />
+          
         </div>
       }
       {!haveLocation && <h2>Unable to get user location.</h2>}

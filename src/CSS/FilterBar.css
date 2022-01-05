@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+}
+
+@keyframes slideInTop {
+  0% {
+    transform: translateY(-40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.PageBody-Container {
+    margin-top: 10px;
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.Pagebody-Filter-Container {
+  animation: 1s ease-out 0s 1 slideInTop;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  width: 70%;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.Pagebody-Filter-Submit {
+  animation: 1s ease-out 0s 1 slideInTop;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  padding: 5px;
+  width: 50px;
+  cursor: pointer;
+  text-align: center;
+  justify-content: center;
+
+  background-color: var(--primary_orange);
+}
+
+.Pagebody-Filter-Form {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.Pagebody-Filter-TextInput {
+  vertical-align: middle;
+  outline:none;
+  border: none;
+  font-size: 24px;
+  color: grey;
+  width: 350px;
+}
+
+.Pagebody-Filter-Label {
+  vertical-align: middle;
+  font-size: 24px;
+  color: grey;
+}
+
+.Pagebody-Filter-SelectInput {
+  vertical-align: middle;
+  outline:none;
+  border: none;
+  font-size: 24px;
+  color: grey;
+}
+
+@media only screen and (max-width: 900px) {
+  .PageBody-Container {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .Pagebody-Filter-TextInput {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
