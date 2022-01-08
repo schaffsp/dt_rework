@@ -1,6 +1,10 @@
 import React from 'react'
 import '../CSS/Navbar.css'
 
+/**
+ * Formats a navbar that sits on top of the rest of the app.
+ * @returns a formatted NavBar
+ */
 const Navbar = () => {
     return (
         <div className='Navbar-Container'>

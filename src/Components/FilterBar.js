@@ -3,13 +3,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchNearbyPlaces } from '../actions';
 import '../CSS/FilterBar.css'
 
+/**
+ * Formats a section for the user to select options before the API request is fired off that returns a list of nearby restuarants.
+ * @returns a bar with different options for the external API request that returns a list of nearby restaurants.
+ */
 const FilterBar = () => {
     const dispatch = useDispatch();
     const lat = useSelector(state => state.user.lat);
     const lon = useSelector(state => state.user.lon);
 
+    /**
+     * Disptaches the external API request to get a lists of nearby restaurarnts based on user parameters
+     */
     function findNearbyPlaces() {
-        // Consider adding a check to see if the distance has been changed before disptaching a fetch to avoid being spammed and overcharged
+        // TODO: Consider adding a check to see if the distance has been changed before disptaching a fetch to avoid being spammed and overcharged
         console.log("Find fetchNearbyPlaces dispatched.");
         const travelMode = document.getElementById('travelModeSelection').value;
         const travelTime = document.getElementById('travelTimeSelection').value;

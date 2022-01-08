@@ -35,18 +35,18 @@ export function fetchNearbyPlaces(travelMode, travelTime, lat, lon) {
     return dispatch => {
         var config = {
             method: 'get',
+            mode: 'no-cors',
             url: `https://api.documenu.com/v2/restaurants/distance?lat=${lat}&lon=${lon}&minutes=${travelTime}&mode=${travelMode}&key=${key}&size=50`,
-            headers: {
-                'Access-Control-Allow-Origin':'http://localhost:3000'
-            }
+            headers: { }
         };
         
         axios(config)
             .then(function (response) {
-            console.log(response.data);
-            dispatch(LoadingNearbyPlaces());
-            dispatch(AddNearbyPlaces(response.data));
-            dispatch(NoLongerLoadingNearbyPlaces());
+
+                console.log(response.data);
+                dispatch(LoadingNearbyPlaces());
+                dispatch(AddNearbyPlaces(response.data));
+                dispatch(NoLongerLoadingNearbyPlaces());
         })
         .catch(function (error) {
             console.log(error);

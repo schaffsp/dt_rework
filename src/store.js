@@ -12,6 +12,12 @@ const initialState = {
     nearbyPlacesLoaded: false,
 };
 
+/**
+ * This function handles updates to the global state.
+ * @param {*} state is global state of the appliation.
+ * @param {*} action any fired action from actions.js.
+ * @returns an updated state depending on the type, and payload, of action.
+ */
 function reducer(state, action) {
     switch (action.type) {
         case Action.UpdateUserLat:
