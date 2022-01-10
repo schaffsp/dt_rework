@@ -1,13 +1,14 @@
 import './CSS/App.css';
+import './CSS/FilterBar.css';
 import Navbar from './Components/Navbar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUserLat, updateUserLon } from './actions';
-import FilterBar from './Components/FilterBar';
+import { fetchNearbyPlaces } from './actions';
 import Restaurant from './Components/Restaurant';
 
 /**
- * Contains the main body of the application, including the NavBar, FilterBar, and nearby estaurant list.
+ * Contains the main body of the application, including the NavBar, FilterBar, and nearby restaurant list.
  * @returns The entire application.
  */
 function App() {
@@ -22,6 +23,9 @@ function App() {
   const [haveLocation, setHaveLocation] = useState(false);
   const [sortPriority, setSortPriority] = useState('distance');
   const [excludeClosed, setExcludeClosed] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
+  let formattedResultsExist = true;
 
   /**
    * Changes the haveLocaction's state if the navigatior.geolocation.getCurrentPosition() call is successful.
@@ -36,6 +40,10 @@ function App() {
    */
   const updateSortPriority = (priority) => {
     setSortPriority(priority);
+  }
+
+  function updateSearchText() {
+    setSearchText(document.getElementById("inputId").value);
   }
 
   /**
@@ -58,19 +66,25 @@ function App() {
    * @returns formatted list of place objects with distanceAsCrowFlies as an added field.
    */
   function formatNearbyPlaces() {
-    var nearbyPlacesFormatted = nearbyPlaces.results.map(place => ({...place, distanceAsCrowFlies: calcCrow(lat, lon, place.geometry.location.lat, place.geometry.location.lng)}))
+    let newNearbyPlaces = nearbyPlaces.results.map(place => ({...place, distanceAsCrowFlies: calcCrow(lat, lon, place.geometry.location.lat, place.geometry.location.lng)}));
 
     if (excludeClosed) {
-      console.log("Not displaying restaurants that are currently closed.");
-      nearbyPlacesFormatted = nearbyPlacesFormatted.filter(function (place) {
+      newNearbyPlaces = newNearbyPlaces.filter(function (place) {
         if (place.permanently_closed) return false;
         else return place.opening_hours.open_now
       });
     }
 
+    if (searchText != "") {
+      console.log(searchText);
+      newNearbyPlaces = newNearbyPlaces.filter(function (place) {
+        return place.name.toLowerCase().includes(searchText.toLowerCase());
+      });
+    }
+
     switch(sortPriority) {
       case 'alphabetical':
-        nearbyPlacesFormatted.sort((a, b) => {
+        newNearbyPlaces.sort((a, b) => {
             let fa = a.name.toLowerCase(),
                 fb = b.name.toLowerCase();
         
@@ -84,12 +98,12 @@ function App() {
         });
         break;
       case 'distance':
-        nearbyPlacesFormatted.sort((a, b) => {
+        newNearbyPlaces.sort((a, b) => {
           return a.distanceAsCrowFlies - b.distanceAsCrowFlies;
         });
         break;
       case 'rating':
-          nearbyPlacesFormatted.sort((a, b) => {
+        newNearbyPlaces.sort((a, b) => {
             return b.rating - a.rating;
           });
           break;     
@@ -98,7 +112,19 @@ function App() {
         break;
     }
 
-    return nearbyPlacesFormatted;
+    formattedResultsExist = Object.keys(newNearbyPlaces).length != 0;
+
+    return newNearbyPlaces;
+  }
+
+  /**
+     * Disptaches the external API request to get a lists of nearby restaurarnts based on user parameters
+     */
+   function findNearbyPlaces() {
+      // TODO: Consider adding a check to see if the distance has been changed before disptaching a fetch to avoid being spammed and overcharged
+      console.log("Find fetchNearbyPlaces dispatched.");
+      const travelDistance = document.getElementById('travelDistanceSelection').value;
+      dispatch(fetchNearbyPlaces(travelDistance, lat, lon));
   }
 
   //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies
@@ -146,15 +172,32 @@ function App() {
       <Navbar />
       {haveLocation && 
         <div>
-          <FilterBar />
+          <div className='PageBody-Container'>
+            <div className='Pagebody-Filter-Container'>
+            <form className='Pagebody-Filter-Form'>
+                <input type="text" id="inputId" name="text_input" onChange={() => updateSearchText()} className="Pagebody-Filter-TextInput" placeholder="Have a specific place in mind?"/>
+                <select id="travelDistanceSelection" className="Pagebody-Filter-SelectInput" name="distance">
+                    <option value="2">2 mi</option>
+                    <option value="5">5 mi</option>
+                    <option value="7">7 mi</option>
+                    <option value="10">10 mi</option>
+                </select>
+            </form>
+            </div>
+            <div className='Pagebody-Filter-Submit'>
+                <h3 onClick={findNearbyPlaces}>Q</h3>
+            </div>
+            
+          </div>
           <div className='App-SortingBar-Container'>
             <button className='App-SortingBar-Component' onClick={() => updateSortPriority('distance')}>{sortPriority === 'distance' && <span>▼</span>}{sortPriority != 'distance' && <span>▲</span>}Distance</button>
             <button className='App-SortingBar-Component' onClick={() => updateSortPriority('rating')}>{sortPriority === 'rating' && <span>▼</span>}{sortPriority != 'rating' && <span>▲</span>}Rating</button>
             <button className='App-SortingBar-Component' onClick={() => updateSortPriority('alphabetical')}>{sortPriority === 'alphabetical' && <span>▼</span>}{sortPriority != 'alphabetical' && <span>▲</span>}Alphabetical</button>
             <button className='App-SortingBar-Component' onClick={() => updateExcludeClosed(!excludeClosed)}>{excludeClosed && <span>☒</span>}{!excludeClosed && <span>☐</span>}Exclude Closed Restaurants</button>
           </div>
-          {loadingNearbyPlaces && <h3>Loading...</h3>}
+          {loadingNearbyPlaces && <h3 className='App-Info'>Loading...</h3>}
           {nearbyPlacesLoaded && formatNearbyPlaces().map(place => <Restaurant key={place.place_id} restaurant={place}/>)}
+          {!formattedResultsExist && <h3 className='App-Info'>No results fit the search or filter criteria, try either expanding the radius of the search or changing your search term.</h3>}
         </div>
       }
       {!haveLocation && <h2>Unable to get user location.</h2>}
