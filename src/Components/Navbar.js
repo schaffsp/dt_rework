@@ -1,5 +1,6 @@
 import React from 'react'
 import '../CSS/Navbar.css'
+import { Link } from 'react-router-dom';
 
 /**
  * Formats a navbar that sits on top of the rest of the app.
@@ -8,7 +9,11 @@ import '../CSS/Navbar.css'
 const Navbar = () => {
     return (
         <div className='Navbar-Container'>
-            <h1 className='Navbar-Component'>DT</h1>
+            <h1 className='Navbar-Component'>Where are you going to eat?</h1>
+            <div className='Navbar-Link-Container'>
+                <Link className='Navbar-Link' to="/">Home</Link>
+                <Link className='Navbar-Link' to="/about">About</Link>
+            </div>
         </div>
     )
 }
