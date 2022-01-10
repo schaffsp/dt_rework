@@ -39,6 +39,7 @@
   cursor: pointer;
   text-align: center;
   justify-content: center;
+  font: 30px;
 
   background-color: var(--primary_orange);
 }

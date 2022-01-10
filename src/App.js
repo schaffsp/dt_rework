@@ -27,6 +27,9 @@ function App() {
 
   let formattedResultsExist = true;
 
+  // This function attempts to get the user's current position in Lat and Lon
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
   /**
    * Changes the haveLocaction's state if the navigatior.geolocation.getCurrentPosition() call is successful.
    */
@@ -58,8 +61,7 @@ function App() {
     alert(`Your browser doesn't support Geolocation`);
   }
 
-  // This function attempts to get the user's current position in Lat and Lon
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+  
 
   /**
    * Uses nearbyPlaces returned from the external API and sorts it depending on the value of sortPriority.
@@ -123,7 +125,7 @@ function App() {
    function findNearbyPlaces() {
       // TODO: Consider adding a check to see if the distance has been changed before disptaching a fetch to avoid being spammed and overcharged
       console.log("Find fetchNearbyPlaces dispatched.");
-      const travelDistance = document.getElementById('travelDistanceSelection').value;
+      const travelDistance = document.getElementById('travelDistanceSelection') ? document.getElementById('travelDistanceSelection').value : 2;
       dispatch(fetchNearbyPlaces(travelDistance, lat, lon));
   }
 
@@ -167,6 +169,10 @@ function App() {
       alert('Unable to get location.')
   }
 
+  useEffect(() => {
+    findNearbyPlaces();
+  }, [haveLocation]);
+
   return (
     <div className="App">
       <Navbar />
@@ -185,7 +191,7 @@ function App() {
             </form>
             </div>
             <div className='Pagebody-Filter-Submit'>
-                <h3 onClick={findNearbyPlaces}>Q</h3>
+                <h3 onClick={findNearbyPlaces}>🔎︎</h3>
             </div>
             
           </div>
@@ -197,7 +203,7 @@ function App() {
           </div>
           {loadingNearbyPlaces && <h3 className='App-Info'>Loading...</h3>}
           {nearbyPlacesLoaded && formatNearbyPlaces().map(place => <Restaurant key={place.place_id} restaurant={place}/>)}
-          {!formattedResultsExist && <h3 className='App-Info'>No results fit the search or filter criteria, try either expanding the radius of the search or changing your search term.</h3>}
+          {!formattedResultsExist && haveLocation && <h3 className='App-Info'>No results fit the search or filter criteria, try either expanding the radius of the search or changing your search term.</h3>}
         </div>
       }
       {!haveLocation && <h2>Unable to get user location.</h2>}
