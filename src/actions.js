@@ -4,6 +4,7 @@ export const Action = Object.freeze({
     UpdateUserLat: 'UpdateUserLat',
     UpdateUserLon: 'UpdateUserLon',
     AddNearbyPlaces: 'AddNearbyPlaces',
+    AppendNearbyPlaces: 'AppendNearbyPlaces',
     LoadingNearbyPlaces: 'LoadingNearbyPlaces',
     NoLongerLoadingNearbyPlaces: 'NoLongerLoadingNearbyPlaces',
 });
@@ -27,6 +28,16 @@ export function updateUserLon(newLon) {
 export function AddNearbyPlaces(places) {
     return {type: Action.AddNearbyPlaces, payload: places};
 }
+
+export function AppendNearbyPlaces(places) {
+    return {type: Action.AppendNearbyPlaces, payload: places};
+}
+
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+  
+
 /*
 * Documenu key: 0d3eb680d271749b528753dd2cd78b93
 * Documenu url: https://cors-anywhere.herokuapp.com/https://api.documenu.com/v2/restaurants/distance?lat=${lat}&lon=${lon}&minutes=${travelTime}&mode=${travelMode}&key=${key}&size=50
@@ -50,8 +61,32 @@ export function fetchNearbyPlaces(travelDistance, lat, lon) {
 
                 console.log(response.data);
                 dispatch(LoadingNearbyPlaces());
-                dispatch(AddNearbyPlaces(response.data));
+                dispatch(AddNearbyPlaces(response.data.results));
+                
+                if (response.data.next_page_token) {
+                    let token = response.data.next_page_token;
+                    console.log(token);
+                    sleep(2000).then(() => {
+                        config = {
+                            method: 'get',
+                            url: `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&pagetoken=${token}`,
+                            headers: {
+                                'Access-Control-Allow-Origin' : '*'
+                             }
+                        };
+                        axios(config)
+                        .then(function (response) {
+                            console.log(response.data);
+                            dispatch(AppendNearbyPlaces(response.data.results));
+            
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                    });
+                }
                 dispatch(NoLongerLoadingNearbyPlaces());
+
         })
         .catch(function (error) {
             console.log(error);

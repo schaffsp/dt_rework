@@ -9,7 +9,11 @@ import '../CSS/Restaurant.css'
 const Restaurant = (props) => {
     const {restaurant} = props;
 
-    const restaurant_open_text = restaurant.permanently_closed || !restaurant.opening_hours.open_now ? 'Currently Closed' : 'Open Now';
+    let restaurant_open_text = 'Currently Closed';
+
+    if (restaurant.opening_hours && restaurant.opening_hours.open_now) {
+        restaurant_open_text = 'Open Now';
+    }
     
 
     return (

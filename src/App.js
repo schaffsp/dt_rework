@@ -66,7 +66,7 @@ function App() {
    * @returns formatted list of place objects with distanceAsCrowFlies as an added field.
    */
   function formatNearbyPlaces() {
-    let newNearbyPlaces = nearbyPlaces.results.map(place => ({...place, distanceAsCrowFlies: calcCrow(lat, lon, place.geometry.location.lat, place.geometry.location.lng)}));
+    let newNearbyPlaces = nearbyPlaces.map(place => ({...place, distanceAsCrowFlies: calcCrow(lat, lon, place.geometry.location.lat, place.geometry.location.lng)}));
 
     if (excludeClosed) {
       newNearbyPlaces = newNearbyPlaces.filter(function (place) {

@@ -41,6 +41,11 @@ function reducer(state, action) {
                 ...state,
                 nearbyPlaces: action.payload
             }
+        case Action.AppendNearbyPlaces:
+            return {
+                ...state,
+                nearbyPlaces: [].concat(state.nearbyPlaces, action.payload)
+            }
         case Action.LoadingNearbyPlaces:
             return {
                 ...state,
